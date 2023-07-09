@@ -1,115 +1,61 @@
-import Head from 'next/head';
-import styles from '../styles/Home.module.css';
+import Link from "next/link";
+import Script from "next/script";
+import { checkAuthToHome, loginWithGoogle } from "../common/user";
+import { userSuccess } from "../common/alert";
+import { useCookies } from "react-cookie";
+import { useEffect } from "react";
 
-export default function Home() {
+export async function getServerSideProps(context) {
+  const redirect = await checkAuthToHome(context.req.cookies.auth);
+  return redirect;
+}
+
+export default function Index({setLoading, removeCookie=false}) {
+  const [authToken, setAuthToken] = useCookies(["auth"]);
+
+  useEffect(() => {
+    if(removeCookie){
+      console.log("removeCookie", authToken);
+      setAuthToken("auth", "", { path: "/" });
+    }
+  })
+  
+  const onLoginWithGoogle = async () => {
+    setLoading(true);
+    const user = await loginWithGoogle(setLoading);
+    if(user){
+      setAuthToken("auth", user, { path: "/" });
+      await userSuccess("Success", `Login success`);
+      window.location.href = "/home";
+    }
+  }
+
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing <code>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+    <>
+      <Script src="https://cdn.lordicon.com/bhenfmcm.js" />
+      <div className="flex flex-col justify-end items-center h-[50vh]">
+        <lord-icon
+          src="https://cdn.lordicon.com/yeallgsa.json"
+          trigger="loop"
+          colors="primary:#ddf75f,secondary:#ffffff"
+          style={{ width: "150px", height: "150px" }}
+        />
+        <div className="text-[19px] text-[#ddf75f] mt-2">otona-no-kotobadzukai</div>
+      </div>
+      <div className="flex flex-col justify-center items-center h-[50vh]">
+        <Link href="/login" className="bg-[#246BFD] w-[250px] py-3 cursor-pointer flex justify-center items-center rounded-lg">
+          <img src="/asset/icons/email.svg" className="w-5 mr-2" />
+          Continue with Email
+        </Link>
+        <div className="border-2 border-[#246BFD] text-[#246BFD] w-[250px] py-3 mt-3 cursor-pointer flex items-center justify-center rounded-lg"
+             onClick={onLoginWithGoogle}>
+          <img src="/asset/icons/google.png" className="w-5 h-5 mr-2" />
+          Continue with Google
         </div>
-      </main>
-
-      <footer>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel" className={styles.logo} />
-        </a>
-      </footer>
-
-      <style jsx>{`
-        main {
-          padding: 5rem 0;
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
-        footer {
-          width: 100%;
-          height: 100px;
-          border-top: 1px solid #eaeaea;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-        footer img {
-          margin-left: 0.5rem;
-        }
-        footer a {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          text-decoration: none;
-          color: inherit;
-        }
-        code {
-          background: #fafafa;
-          border-radius: 5px;
-          padding: 0.75rem;
-          font-size: 1.1rem;
-          font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
-            DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
-        }
-      `}</style>
-
-      <style jsx global>{`
-        html,
-        body {
-          padding: 0;
-          margin: 0;
-          font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-            Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
-            sans-serif;
-        }
-        * {
-          box-sizing: border-box;
-        }
-      `}</style>
-    </div>
-  )
+        <div className="text-gray-600 mt-5">
+          Developed by{" "} @algnot
+        </div>
+      </div>
+    </>
+  );
 }
