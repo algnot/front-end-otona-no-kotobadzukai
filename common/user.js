@@ -100,7 +100,7 @@ export const checkAuthToHome = async (authToken) => {
   }
 }
 
-export const checkWantToLogin = async (authToken) => {
+export const checkWantToLogin = async (authToken, isSetPasswordPage=false) => {
   try {
     const auth = authToken;
     if(!auth) return {
@@ -118,6 +118,22 @@ export const checkWantToLogin = async (authToken) => {
         },
       }
     }
+    if(user.canSetPassword && !isSetPasswordPage){
+      return {
+        redirect: {
+          destination: '/set-password',
+          permanent: false,
+        },
+      }
+    }
+    if(!user.canSetPassword && isSetPasswordPage){
+      return {
+        redirect: {
+          destination: '/home',
+          permanent: false,
+        },
+      }
+    }
     return { props: { user: user } }
   } catch (error) {
     return {
@@ -126,5 +142,73 @@ export const checkWantToLogin = async (authToken) => {
         permanent: false,
       },
     }
+  }
+}
+
+export const linkGoogle = async (authToken, email, setLoading = (l) => {}) => {
+  try {
+    setLoading(true);
+    const userGoogle = await auth.signInWithPopup(googleProvider);
+    if(userGoogle.user.email !== email) {
+      setLoading(false);
+      return userError("Error", "Google email is not match");
+    }
+    const user = await axios.post(`${backendPath}/connect/link-google`, {
+      googleAuthId: userGoogle.user.uid
+    }, {
+      headers: {
+        Authorization: `${authToken}`,
+      },
+    });
+    setLoading(false);
+    return user.data;
+  } catch (error) {
+    setLoading(false);
+    if (error.response) {
+      return userError("Error", error.response.data);
+    }
+    userError("Error", error.message);
+  }
+}
+
+export const setPassword = async (authToken, password, setLoading = (l) => {}) => {
+  try {
+    setLoading(true);
+    const user = await axios.post(`${backendPath}/connect/set-password`, {
+      password: password
+    }, {
+      headers: {
+        Authorization: `${authToken}`,
+      },
+    });
+    setLoading(false);
+    return user.data;
+  } catch (error) {
+    setLoading(false);
+    if (error.response) {
+      return userError("Error", error.response.data);
+    }
+    userError("Error", error.message);
+  }
+}
+
+export const updateProfile = async (authToken, username, setLoading = (l) => {}) => {
+  try {
+    setLoading(true);
+    const user = await axios.put(`${backendPath}/user`, {
+      username: username
+    }, {
+      headers: {
+        Authorization: `${authToken}`,
+      },
+    });
+    setLoading(false);
+    return user.data;
+  } catch (error) {
+    setLoading(false);
+    if (error.response) {
+      return userError("Error", error.response.data);
+    }
+    userError("Error", error.message);
   }
 }
