@@ -30,7 +30,8 @@ export default function Home({ user }) {
           </div>
           <Link
             href="/setting"
-            className="material-symbols-outlined text-5xl text-white cursor-pointer"
+            className="material-symbols-outlined text-white cursor-pointer"
+            style={{fontSize: "3rem"}}
           >
             account_circle
           </Link>

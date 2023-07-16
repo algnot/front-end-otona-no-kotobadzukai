@@ -37,7 +37,8 @@ export default function Setting({ user }) {
       <Navbar active="Setting" />
       <div className="pb-6">
         <div className="flex items-center gap-7 bg-[#0C2237] rounded-b-lg py-8 px-9">
-          <span className="material-symbols-outlined text-7xl text-white cursor-pointer">
+          <span className="material-symbols-outlined text-white cursor-pointer"
+                style={{fontSize: '4.5rem'}}>
             account_circle
           </span>
           <div>

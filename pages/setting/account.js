@@ -60,7 +60,8 @@ export default function Setting({ user, setLoading }) {
             className="grid gap-4 bg-[#1E293B] rounded-lg px-3 py-2"
             style={{ gridTemplateColumns: "30px 1fr" }}
           >
-            <span className="material-symbols-outlined text-[30px] text-gray-300">
+            <span className="material-symbols-outlined text-gray-300"
+                  style={{fontSize: '30px'}}>
               account_circle
             </span>
             <input
