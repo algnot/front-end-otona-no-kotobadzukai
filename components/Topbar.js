@@ -13,7 +13,7 @@ export default function Topbar({ href = "/", title = "", showBack = true }) {
       </Head>
       <div className="flex items-center gap-5 bg-[#0C2237] rounded-b-lg py-8 px-9">
         {showBack && (
-          <Link href={href} class="material-symbols-outlined font-bold">
+          <Link href={href} className="material-symbols-outlined font-bold">
             arrow_back_ios
           </Link>
         )}

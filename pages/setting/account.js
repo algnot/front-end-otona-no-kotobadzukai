@@ -47,8 +47,8 @@ export default function Setting({ user, setLoading }) {
       </Head>
       <Navbar active="Setting" />
       <div className="pb-6">
-        <Topbar href="/setting" title="Account Setting" />
-        <form className="mt-10" onSubmit={onSubmit}>
+        <Topbar href="/setting" title="บัญชีของฉัน" />
+        <form className="mt-10 px-4" onSubmit={onSubmit}>
           <div className="flex items-center justify-center mb-10">
             <span className="material-symbols-outlined text-gray-300"
                   style={{fontSize: '100px'}}>
@@ -56,7 +56,7 @@ export default function Setting({ user, setLoading }) {
             </span>
           </div>
 
-          <div className="text-white mb-3 text-[18px]">Username*</div>
+          <div className="text-white mb-3 text-[18px]">ชื่อผู้ใช้*</div>
           <div
             className="grid gap-4 bg-[#1E293B] rounded-lg px-3 py-2"
             style={{ gridTemplateColumns: "30px 1fr" }}
@@ -74,7 +74,7 @@ export default function Setting({ user, setLoading }) {
             />
           </div>
 
-          <div className="text-white mb-3 text-[18px] mt-5">Email</div>
+          <div className="text-white mb-3 text-[18px] mt-5">อีเมล</div>
           <div
             className="grid gap-4 bg-[#1E293B] rounded-lg px-3 py-2"
             style={{ gridTemplateColumns: "30px 1fr" }}
@@ -91,11 +91,11 @@ export default function Setting({ user, setLoading }) {
             />
           </div>
 
-          <div className="text-white mb-3 text-[18px] mt-5">Linked Account</div>
+          <div className="text-white mb-3 text-[18px] mt-5">บัญชีที่เชื่อมต่อ</div>
           {user.googleAuthId ? (
             <div className="border-2 border-[#246BFD] text-[#246BFD] w-fit p-3 mt-5 flex items-center justify-center rounded-lg">
               <img src="/asset/icons/google.png" className="w-5 h-5 mr-2" />
-              {user.googleAuthId} (Linked)
+              {user.googleAuthId} (เชื่อมต่อแล้ว)
             </div>
           ) : (
             <div className="border-2 border-[#246BFD] text-[#246BFD] w-fit p-3 mt-5 flex cursor-pointer items-center justify-center rounded-lg"
@@ -109,7 +109,7 @@ export default function Setting({ user, setLoading }) {
             type="submit"
             className="bg-[#246BFD] text-[18px] py-3 mt-10 cursor-pointer flex justify-center w-full items-center rounded-lg"
           >
-            Save Changes
+            บันทึก
           </button>
         </form>
       </div>

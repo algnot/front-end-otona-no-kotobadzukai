@@ -45,7 +45,7 @@ export default function setPasswordCom({user, setLoading}) {
           className="grid gap-4 bg-[#1E293B] rounded-lg px-3 py-2"
           style={{ gridTemplateColumns: "30px 1fr" }}
         >
-          <span class="material-symbols-outlined text-[28px] text-gray-300">
+          <span className="material-symbols-outlined text-[28px] text-gray-300">
             password
           </span>
           <input
@@ -62,7 +62,7 @@ export default function setPasswordCom({user, setLoading}) {
           className="grid gap-4 bg-[#1E293B] rounded-lg px-3 py-2"
           style={{ gridTemplateColumns: "30px 1fr" }}
         >
-          <span class="material-symbols-outlined text-[28px] text-gray-300">
+          <span className="material-symbols-outlined text-[28px] text-gray-300">
             password
           </span>
           <input

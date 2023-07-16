@@ -6,7 +6,11 @@ export default function ({active="Home"}) {
     name: "Home",
     icon: "home",
     link: "/home"
-  }, {
+  },{
+    name: "Payment",
+    icon: "qr_code",
+    link: "/my-payment"
+  },{
     name: "Setting",
     icon: "settings",
     link: "/setting"

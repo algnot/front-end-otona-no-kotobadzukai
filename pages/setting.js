@@ -9,7 +9,6 @@ export async function getServerSideProps(context) {
   return redirect;
 }
 export default function Setting({ user }) {
-
   const onLogout = () => {
     Swal.fire({
       title: "Are you sure?",
@@ -24,7 +23,7 @@ export default function Setting({ user }) {
         window.location.href = "/logout";
       }
     });
-  }
+  };
 
   return (
     <>
@@ -37,8 +36,10 @@ export default function Setting({ user }) {
       <Navbar active="Setting" />
       <div className="pb-6">
         <div className="flex items-center gap-7 bg-[#0C2237] rounded-b-lg py-8 px-9">
-          <span className="material-symbols-outlined text-white cursor-pointer"
-                style={{fontSize: '4.5rem'}}>
+          <span
+            className="material-symbols-outlined text-white cursor-pointer"
+            style={{ fontSize: "4.5rem" }}
+          >
             account_circle
           </span>
           <div>
@@ -48,26 +49,31 @@ export default function Setting({ user }) {
             </div>
           </div>
         </div>
-        <div className="bg-[#0C2237] flex items-center w-fit py-2 px-3 rounded-xl gap-2 mt-5 text-[12px] text-[#f3aa60] font-bold">
-          <span className="material-symbols-outlined text-[#f3aa60] font-bold">
-            grade
-          </span>
-          ผู้ใช้คนที่ {user.id}
-        </div>
-        <Link
-          href="/setting/account"
-          className="text-gray-300 flex items-center bg-[#0C2237] mt-5 p-7 gap-5 text-md cursor-pointer rounded-xl"
-        >
-          <span className="material-symbols-outlined text-gray-300 text-3xl">
-            person
-          </span>
-          Account Settings
-        </Link>
-        <div onClick={onLogout} className="text-gray-300 flex items-center bg-[#0C2237] mt-5 p-7 gap-5 text-md cursor-pointer rounded-xl">
-          <span className="material-symbols-outlined text-gray-300 text-3xl">
-            logout
-          </span>
-          Logout
+        <div className="px-4">
+          <div className="bg-[#0C2237] flex items-center w-fit py-2 px-3 rounded-xl gap-2 mt-5 text-[12px] text-[#f3aa60] font-bold">
+            <span className="material-symbols-outlined text-[#f3aa60] font-bold">
+              grade
+            </span>
+            ผู้ใช้คนที่ {user.id}
+          </div>
+          <Link
+            href="/setting/account"
+            className="text-gray-300 flex items-center bg-[#0C2237] mt-5 p-7 gap-5 text-md cursor-pointer rounded-xl"
+          >
+            <span className="material-symbols-outlined text-gray-300 text-3xl">
+              person
+            </span>
+            บัญชีของฉัน
+          </Link>
+          <div
+            onClick={onLogout}
+            className="text-gray-300 flex items-center bg-[#0C2237] mt-5 p-7 gap-5 text-md cursor-pointer rounded-xl"
+          >
+            <span className="material-symbols-outlined text-gray-300 text-3xl">
+              logout
+            </span>
+            ออกจากระบบ
+          </div>
         </div>
       </div>
     </>

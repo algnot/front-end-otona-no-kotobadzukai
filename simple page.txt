@@ -1,0 +1,25 @@
+import Head from 'next/head'
+import React from 'react'
+import Navbar from '../components/Navbar'
+import Topbar from '../components/Topbar'
+
+export async function getServerSideProps(context) {
+  const redirect = await checkWantToLogin(context.req.cookies.auth);
+  return redirect;
+}
+export default function Payment() {
+  return (
+    <>
+        <Head>
+
+        </Head>
+        <div>
+            <Navbar active="Payment" />
+            <div className="pb-6">
+                <Topbar href="/payment" showBack={false} title="My Payment" />
+
+            </div>
+        </div>
+    </>
+  )
+}
