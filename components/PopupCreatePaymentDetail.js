@@ -46,7 +46,7 @@ export default function PopupCreatePaymentDetail({closePopup, setLoading}) {
               เพิ่มบัญชีพร้อมเพย์
             </div>
             <span className="material-symbols-outlined font-bold cursor-pointer"
-                  onClick={closePopup}>close</span>
+                  onClick={() => closePopup(false)}>close</span>
           </div>
 
           <div className="text-white mb-3 mt-7 text-[18px]">ชื่อบัญชี*</div>
