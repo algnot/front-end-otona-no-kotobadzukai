@@ -13,6 +13,14 @@ export default function Payment({ user, setLoading }) {
   const [isCreatePayment, setIsCreatePayment] = useState(false);
   const [paymentDetail, setPaymentDetail] = useState(user.paymentDetail || []);
 
+  const closePopup = (response) => {
+    setIsCreatePayment(false);
+    if (response) {
+      user.paymentDetail = [...user.paymentDetail, response];
+      setPaymentDetail(user.paymentDetail);
+    }
+  }
+
   return (
     <>
       <Head>
@@ -23,7 +31,7 @@ export default function Payment({ user, setLoading }) {
       </Head>
       {isCreatePayment && (
         <PopupCreatePaymentDetail
-          closePopup={() => setIsCreatePayment(false)}
+          closePopup={closePopup}
           setLoading={setLoading}
         />
       )}
@@ -62,7 +70,7 @@ export default function Payment({ user, setLoading }) {
                   <div className="text-sm flex justify-center items-center gap-2 bg-green-900 rounded-xl px-2 py-1">
                     สร้าง QRCode ได้
                     <span
-                      class="material-symbols-outlined"
+                      className="material-symbols-outlined"
                       style={{ fontSize: "20px" }}
                     >
                       verified

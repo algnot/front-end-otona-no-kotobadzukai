@@ -37,3 +37,29 @@ export const createPaymentDetail = async (
     userError("Error", error.message);
   }
 };
+
+export const deletePaymentDetail = async (
+  authToken,
+  id,
+  setLoading = (l) => {}
+) => {
+  try {
+    setLoading(true);
+    const paymentDetail = await axios.delete(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/payment-detail/${id}`,
+      {
+        headers: {
+          Authorization: `${authToken}`,
+        },
+      }
+    );
+    setLoading(false);
+    return paymentDetail.data;
+  } catch (error) {
+    if (error.response) {
+      setLoading(false);
+      return userError("Error", error.response.data);
+    }
+    userError("Error", error.message);
+  }
+}

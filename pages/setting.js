@@ -65,6 +65,15 @@ export default function Setting({ user }) {
             </span>
             บัญชีของฉัน
           </Link>
+          <Link
+            href="/setting/qrcode"
+            className="text-gray-300 flex items-center bg-[#0C2237] mt-5 p-7 gap-5 text-md cursor-pointer rounded-xl"
+          >
+            <span className="material-symbols-outlined text-gray-300 text-3xl">
+              qr_code
+            </span>
+            QRCode ของฉัน
+          </Link>
           <div
             onClick={onLogout}
             className="text-gray-300 flex items-center bg-[#0C2237] mt-5 p-7 gap-5 text-md cursor-pointer rounded-xl"

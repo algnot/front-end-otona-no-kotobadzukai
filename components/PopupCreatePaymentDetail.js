@@ -20,8 +20,7 @@ export default function PopupCreatePaymentDetail({closePopup, setLoading}) {
       const response = await createPaymentDetail(authToken.auth, name, number, true, setLoading)
       if(response){
         userSuccess("สำเร็จ", "เพิ่มบัญชีพร้อมเพย์สำเร็จ");
-        closePopup();
-        window.location.reload();
+        closePopup(response);
       }
     } catch (error) {
       await userError("เกิดข้อผิดพลาด", error.message)
@@ -46,7 +45,7 @@ export default function PopupCreatePaymentDetail({closePopup, setLoading}) {
             <div className="text-[#f3aa60] text-xl font-bold">
               เพิ่มบัญชีพร้อมเพย์
             </div>
-            <span class="material-symbols-outlined font-bold cursor-pointer"
+            <span className="material-symbols-outlined font-bold cursor-pointer"
                   onClick={closePopup}>close</span>
           </div>
 
@@ -56,7 +55,7 @@ export default function PopupCreatePaymentDetail({closePopup, setLoading}) {
             style={{ gridTemplateColumns: "30px 1fr" }}
           >
             <span className="material-symbols-outlined text-[28px] text-gray-300">
-            <span class="material-symbols-outlined">
+            <span className="material-symbols-outlined">
               perm_contact_calendar
             </span>
             </span>
@@ -75,7 +74,7 @@ export default function PopupCreatePaymentDetail({closePopup, setLoading}) {
             style={{ gridTemplateColumns: "30px 1fr" }}
           >
             <span className="material-symbols-outlined text-[28px] text-gray-300">
-            <span class="material-symbols-outlined">
+            <span className="material-symbols-outlined">
               tag
             </span>
             </span>
