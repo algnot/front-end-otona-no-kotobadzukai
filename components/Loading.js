@@ -5,7 +5,7 @@ export default function Loading() {
   return (
     <>
       <Script src="https://cdn.lordicon.com/bhenfmcm.js" />
-      <div className="flex flex-col justify-center items-center h-[100vh] z-5">
+      <div className="flex flex-col justify-center items-center h-[100vh] z-20">
         <lord-icon
           src="https://cdn.lordicon.com/yeallgsa.json"
           trigger="loop"

@@ -7,6 +7,7 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 import { deletePaymentDetail } from "../../common/paymentDetail";
 import { userSuccess } from "../../common/alert";
+import PopupShowPayment from "../../components/PopupShowPayment";
 
 export async function getServerSideProps(context) {
   const redirect = await checkWantToLogin(context.req.cookies.auth);
@@ -16,6 +17,7 @@ export async function getServerSideProps(context) {
 export default function qrcode({ user, setLoading }) {
   const [authToken] = useCookies(["auth"]);
   const [paymentDetail, setPaymentDetail] = useState(user.paymentDetail || []);
+  const [showPayment, setShowPayment] = useState(false)
 
   const onDelete = async (id, e) => {
     try {
@@ -52,12 +54,22 @@ export default function qrcode({ user, setLoading }) {
         />
       </Head>
       <Navbar active="Setting" />
+      {
+        showPayment && (
+          <PopupShowPayment
+            payment={showPayment}
+            closePopup={() => setShowPayment(false)}
+            editMode={true}
+          />
+        )
+      }
       <div className="pb-6">
         <Topbar href="/setting" title="QRCode ของฉัน" />
         <div className="mt-10 px-4">
           {paymentDetail.map((item) => (
             <div
               key={item.id}
+              onClick={() => setShowPayment(item)}
               className="px-4 bg-[#0C2237] flex items-center justify-between p-5 mt-4 rounded-lg cursor-pointer text-xl gap-4"
             >
               <div className=" flex items-center gap-4">
