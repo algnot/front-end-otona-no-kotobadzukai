@@ -10,7 +10,7 @@ export default function Home({ user }) {
   const getWelcomeMessageByDateTime = () => {
     const date = new Date();
     const hour = date.getHours();
-    if (hour >= 0 && hour < 12) {
+    if (hour >= 5 && hour < 8) {
       return "Good Morning! ☀️";
     } else if (hour >= 12 && hour < 18) {
       return "Good Afternoon! ☀️";
