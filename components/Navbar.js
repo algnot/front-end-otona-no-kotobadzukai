@@ -7,6 +7,10 @@ export default function ({active="Home"}) {
     icon: "home",
     link: "/home"
   },{
+    name: "Bill",
+    icon: "receipt_long",
+    link: "/bill"
+  },{
     name: "Payment",
     icon: "qr_code",
     link: "/my-payment"
