@@ -55,6 +55,28 @@ export default function Bill({ user, setLoading }) {
 
   const onSubmit = async (e) => {
     try {
+      const name = e.target.name.value;
+      const user = billUser;
+      const payment = paymentSelected.value;
+      const serviceChargePercent = e.target.serviceChargePercent.value;
+      const taxPercent = e.target.taxPercent.value;
+      const billItems = [];
+      for (let i = 0; i < billItemCount; i++) {
+        const item = {
+          name: e.target[`itemName-${i}`].value,
+          amount: e.target[`itemAmount-${i}`].value,
+          taxPercent: taxPercent,
+          serviceChargePercent: serviceChargePercent
+        };
+        billItems.push(item);
+      }
+      const body = {
+        name: name,
+        user: user,
+        items: billItems,
+        payment: payment,
+      }
+      console.log(body);
       e.preventDefault();
     } catch (error) {
       userError("Error", error.message);
@@ -79,7 +101,7 @@ export default function Bill({ user, setLoading }) {
 
   const onAddPayment = (payment, isForce) => {
     if (isForce) {
-        return window.location.href = "/bill";
+      return (window.location.href = "/bill");
     }
     window.location.reload();
   };
@@ -278,7 +300,7 @@ export default function Bill({ user, setLoading }) {
             type="submit"
             className="bg-[#246BFD] text-[18px] py-2 mt-10 cursor-pointer flex justify-center w-full items-center rounded-lg"
           >
-           สร้างรายการเรียกเก็บเงิน
+            สร้างรายการเรียกเก็บเงิน
           </button>
         </form>
       </div>
