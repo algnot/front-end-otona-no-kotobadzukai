@@ -20,7 +20,7 @@ export default function PopupCreatePaymentDetail({closePopup, setLoading}) {
       const response = await createPaymentDetail(authToken.auth, name, number, true, setLoading)
       if(response){
         userSuccess("สำเร็จ", "เพิ่มบัญชีพร้อมเพย์สำเร็จ");
-        closePopup(response);
+        closePopup(response, false);
       }
     } catch (error) {
       await userError("เกิดข้อผิดพลาด", error.message)
@@ -46,7 +46,7 @@ export default function PopupCreatePaymentDetail({closePopup, setLoading}) {
               เพิ่มบัญชีพร้อมเพย์
             </div>
             <span className="material-symbols-outlined font-bold cursor-pointer"
-                  onClick={() => closePopup(false)}>close</span>
+                  onClick={() => closePopup(false, true)}>close</span>
           </div>
 
           <div className="text-white mb-3 mt-7 text-[18px]">ชื่อบัญชี*</div>

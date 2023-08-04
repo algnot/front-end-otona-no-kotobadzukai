@@ -15,7 +15,6 @@ export default function Index({setLoading, removeCookie=false}) {
 
   useEffect(() => {
     if(removeCookie){
-      console.log("removeCookie", authToken);
       setAuthToken("auth", "", { path: "/" });
     }
   })

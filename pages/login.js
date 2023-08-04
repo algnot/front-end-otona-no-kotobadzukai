@@ -51,7 +51,7 @@ export default function Login({ setLoading, removeCookie=false }) {
     const user = await loginWithGoogle(setLoading);
     if (user) {
       setAuthToken("auth", user, { path: "/" });
-      await userSuccess("Success", `Login success JWT:${user}`);
+      await userSuccess("Success", `Login success`);
       window.location.href = "/home";
     }
   };

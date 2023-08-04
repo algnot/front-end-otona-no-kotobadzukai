@@ -9,6 +9,7 @@ body {
   background: rgb(24,26,32);
   background: linear-gradient(245deg, rgba(23,25,32,1) 0%, rgba(24,24,45,1) 100%);
   font-family: 'Noto Sans Thai', sans-serif;
+  overflow-x: hidden;
 }
 
 a {

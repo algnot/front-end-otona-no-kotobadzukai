@@ -18,7 +18,7 @@ export default function MyApp({ Component, pageProps }) {
         {loading ? (
           <Loading />
         ) : (
-          <div className="container">
+          <div className="container pb-5">
             <Component {...pageProps} setLoading={setLoading} />
           </div>
         )}
