@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 import PopupCreatePaymentDetail from "../../components/PopupCreatePaymentDetail";
 
 import PopupSeachUser from "../../components/PopupSeachUser";
+import ConclusionBill from "../../components/ConclusionBill";
 
 export async function getServerSideProps(context) {
   const redirect = await checkWantToLogin(context.req.cookies.auth);
@@ -32,6 +33,7 @@ export default function Bill({ user, setLoading }) {
 
   const [paymentSelected, setPaymentSelected] = useState({});
   const [billUser, setBillUser] = useState(false);
+  const [dataSend, setDataSend] = useState(false)
 
   useEffect(() => {
     if (user.paymentDetail.length > 0) {
@@ -55,12 +57,18 @@ export default function Bill({ user, setLoading }) {
 
   const onSubmit = async (e) => {
     try {
+      e.preventDefault();
       const name = e.target.name.value;
-      const user = billUser;
       const payment = paymentSelected.value;
       const serviceChargePercent = e.target.serviceChargePercent.value;
       const taxPercent = e.target.taxPercent.value;
       const billItems = [];
+      if(!billUser){
+        throw new Error("กรุณาเลือกผู้ถูกเรียกเก็บเงิน")
+      }
+      if(billUser.uid == user.uid){
+        throw new Error("ไม่สามารถเรียกเก็บเงินตัวเองได้")
+      } 
       for (let i = 0; i < billItemCount; i++) {
         const item = {
           name: e.target[`itemName-${i}`].value,
@@ -72,12 +80,11 @@ export default function Bill({ user, setLoading }) {
       }
       const body = {
         name: name,
-        user: user,
+        user: billUser,
         items: billItems,
         payment: payment,
       }
-      console.log(body);
-      e.preventDefault();
+      setDataSend(body)
     } catch (error) {
       userError("Error", error.message);
     }
@@ -122,6 +129,11 @@ export default function Bill({ user, setLoading }) {
             setLoading={setLoading}
           />
         )}
+        {
+          dataSend && (
+            <ConclusionBill payload={dataSend} closePopup={() => setDataSend(false)} />
+          )
+        }
         <Topbar href="/bill" showBack={true} title="สร้างรายการเรียกเก็บเงิน" />
         <form onSubmit={onSubmit} className="px-3">
           <div className="text-white mb-3 mt-8 text-[18px]">ชื่อบิล</div>

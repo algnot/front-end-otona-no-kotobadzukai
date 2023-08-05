@@ -24,7 +24,7 @@ export default function PopupShowPayment({
       </Head>
       <div className="fixed z-10 bg-[#00000045] top-0 right-0 w-[100vw] h-[100vh] flex items-center justify-center px-3">
         <div
-          className=" container bg-[#1E293B] rounded-lg p-5 h-fit"
+          className="container bg-[#1E293B] rounded-lg p-5 h-fit"
           data-aos="zoom-in"
         >
           <div className="flex justify-between items-center">
