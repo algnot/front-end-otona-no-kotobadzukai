@@ -73,6 +73,7 @@ export default function Bill({ user, setLoading }) {
         const item = {
           name: e.target[`itemName-${i}`].value,
           amount: e.target[`itemAmount-${i}`].value,
+          quantity: e.target[`itemQuantity-${i}`].value,
           taxPercent: taxPercent,
           serviceChargePercent: serviceChargePercent
         };
@@ -188,10 +189,11 @@ export default function Bill({ user, setLoading }) {
 
           <div
             className="grid gap-3"
-            style={{ gridTemplateColumns: "2fr 1fr" }}
+            style={{ gridTemplateColumns: "2fr 1fr 1fr" }}
           >
             <span>ชื่อรายการ</span>
-            <span>ราคา</span>
+            <span>ราคา/หน่วย</span>
+            <span>จำนวน</span>
 
             {Array.from(Array(billItemCount).keys()).map((item, index) => {
               return (
@@ -206,6 +208,15 @@ export default function Bill({ user, setLoading }) {
                     className="bg-tranparent text-[18px] bg-[#1E293B] rounded-lg px-3 py-2 w-full"
                     type="number"
                     name={`itemAmount-${index}`}
+                    defaultValue={0}
+                    min={0}
+                    required
+                  />
+                  <input
+                    className="bg-tranparent text-[18px] bg-[#1E293B] rounded-lg px-3 py-2 w-full"
+                    type="number"
+                    defaultValue={1}
+                    name={`itemQuantity-${index}`}
                     min={0}
                     required
                   />

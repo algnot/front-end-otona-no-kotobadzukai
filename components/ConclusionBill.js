@@ -2,6 +2,9 @@ import Aos from "aos";
 import Head from "next/head";
 import React, { useEffect } from "react";
 import { numberWithCommas } from "../common/validater";
+import { useCookies } from "react-cookie";
+import { userError, userSuccess } from "../common/alert";
+import { postBill } from "../common/bill";
 
 export default function ConclusionBill({
   payload = {
@@ -19,13 +22,25 @@ export default function ConclusionBill({
   },
   closePopup,
 }) {
+  const [authToken, setAuthToken] = useCookies(["auth"]);
+
   useEffect(() => {
     Aos.init();
   }, []);
 
-  let total = payload.items.reduce((a, b) => a + parseFloat(b.amount), 0);
+  let total = payload.items.reduce((a, b) => a + parseFloat(b.amount * b.quantity), 0);
   let serviceCharge = (total * payload.items[0].serviceChargePercent) / 100;
   let tax = ((total + serviceCharge) * payload.items[0].taxPercent) / 100;
+
+  const onSubmit = async () => {
+    try {
+      await postBill(authToken.auth, payload);
+      await userSuccess("Success", "สร้างรายการสำเร็จ");
+      window.location.href = "/bill";
+    } catch (error) {
+      userError("Error", error.message);
+    }
+  }
 
   return (
     <>
@@ -42,10 +57,7 @@ export default function ConclusionBill({
         >
           <div className="flex justify-between items-center">
             <div className="text-[#f3aa60] text-xl font-bold">
-              ยืนยันการสร้างรายการ{" "}
-              <span className="bg-[rgb(24,26,32)] px-2 rounded-lg">
-                {payload.name}
-              </span>
+              ยืนยันการสร้างรายการ
             </div>
             <span
               className="material-symbols-outlined font-bold cursor-pointer"
@@ -77,9 +89,9 @@ export default function ConclusionBill({
           <div className="mt-5 text-[#f3aa60]">รายการ</div>
           {payload.items.map((item, index) => (
             <div key={item.name} className="flex justify-between items-center">
-              <div className="font-bold">{item.name}</div>
+              <div className="font-bold">{item.name} x{item.quantity} </div>
               <div className="font-bold">
-                {numberWithCommas(parseFloat(item.amount).toFixed(2))} บาท
+                {numberWithCommas(parseFloat(item.amount * item.quantity).toFixed(2))} บาท
               </div>
             </div>
           ))}
@@ -118,11 +130,12 @@ export default function ConclusionBill({
             </div>
           </div>
 
-          <center className="text-[#246BFD] mx-[auto] text-[18px] py-2 mt-3 cursor-pointer flex justify-center w-fit items-center gap-1">
+          {/* <center className="text-[#246BFD] mx-[auto] text-[18px] py-2 mt-3 cursor-pointer flex justify-center w-fit items-center gap-1">
             <span className="material-symbols-outlined text-[#246BFD]">download</span>
             ดาวน์โหลดใบเสร็จ
-          </center>
-          <div className="bg-[#246BFD] mb-2 text-[18px] py-2 mt-4 cursor-pointer flex justify-center w-full items-center rounded-lg">
+          </center> */}
+          <div className="bg-[#246BFD] mb-2 text-[18px] py-2 mt-4 cursor-pointer flex justify-center w-full items-center rounded-lg"
+               onClick={onSubmit}>
             สร้างใบเสร็จ
           </div>
           * ระบบไม่อนุญาติให้แก้ไขรายการหลังจากสร้างใบเสร็จแล้ว
