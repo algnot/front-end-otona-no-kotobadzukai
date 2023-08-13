@@ -69,7 +69,9 @@ export default function Bill({ user }) {
 
         {billList.map((bill) => {
           return (
-            <div
+            <Link
+              href={`/bill/${bill.ref}`}
+              target="_blank"
               key={bill.id}
               className="flex items-center cursor-pointer hover:bg-[#0C2237] justify-between p-4 border-gray-600 border-b-[1px]"
             >
@@ -96,7 +98,7 @@ export default function Bill({ user }) {
                   {bill.userBill[0].name}
                 </div>
               </div>
-            </div>
+            </Link>
           );
         })}
 
@@ -111,7 +113,7 @@ export default function Bill({ user }) {
           </center>
         )}
 
-        {cursor !== -1 && (
+        {(cursor !== -1 && !isLoadBill) && (
           <div
             className="flex justify-center items-center p-4 border-gray-600 border-b-[1px] cursor-pointer hover:bg-[#0C2237]"
             onClick={onGetBills}

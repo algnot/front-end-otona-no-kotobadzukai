@@ -1,6 +1,6 @@
 import Aos from "aos";
 import Head from "next/head";
-import React, { useEffect } from "react";
+import React, { use, useEffect, useState } from "react";
 import { numberWithCommas } from "../common/validater";
 import { useCookies } from "react-cookie";
 import { userError, userSuccess } from "../common/alert";
@@ -23,24 +23,30 @@ export default function ConclusionBill({
   closePopup,
 }) {
   const [authToken, setAuthToken] = useCookies(["auth"]);
+  const [isPostBill, setIsPostBill] = useState(false);
 
   useEffect(() => {
     Aos.init();
   }, []);
 
-  let total = payload.items.reduce((a, b) => a + parseFloat(b.amount * b.quantity), 0);
+  let total = payload.items.reduce(
+    (a, b) => a + parseFloat(b.amount * b.quantity),
+    0
+  );
   let serviceCharge = (total * payload.items[0].serviceChargePercent) / 100;
   let tax = ((total + serviceCharge) * payload.items[0].taxPercent) / 100;
 
   const onSubmit = async () => {
     try {
+      setIsPostBill(true);
       await postBill(authToken.auth, payload);
       await userSuccess("Success", "สร้างรายการสำเร็จ");
       window.location.href = "/bill";
     } catch (error) {
       userError("Error", error.message);
+      setIsPostBill(false);
     }
-  }
+  };
 
   return (
     <>
@@ -49,6 +55,7 @@ export default function ConclusionBill({
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
         />
+        <script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
       </Head>
       <div className="fixed z-10 bg-[#00000045] top-0 right-0 w-[100vw] h-[100vh] flex items-center justify-center px-3">
         <div
@@ -66,7 +73,6 @@ export default function ConclusionBill({
               close
             </span>
           </div>
-
           <div className="mt-5">
             เรียกเก็บเงินที่{" "}
             <span className="bg-[rgb(24,26,32)] px-2 rounded-lg">
@@ -85,17 +91,20 @@ export default function ConclusionBill({
               {payload.payment.number}
             </span>{" "}
           </div>
-
           <div className="mt-5 text-[#f3aa60]">รายการ</div>
           {payload.items.map((item, index) => (
             <div key={item.name} className="flex justify-between items-center">
-              <div className="font-bold">{item.name} x{item.quantity} </div>
               <div className="font-bold">
-                {numberWithCommas(parseFloat(item.amount * item.quantity).toFixed(2))} บาท
+                {item.name} x{item.quantity}{" "}
+              </div>
+              <div className="font-bold">
+                {numberWithCommas(
+                  parseFloat(item.amount * item.quantity).toFixed(2)
+                )}{" "}
+                บาท
               </div>
             </div>
           ))}
-
           <div className="mt-5 text-[#f3aa60]">สรุปยอด</div>
           <div className="flex justify-between items-center">
             <div className="font-bold">ยอดรวม</div>
@@ -119,7 +128,6 @@ export default function ConclusionBill({
               {numberWithCommas(tax.toFixed(2))} บาท
             </div>
           </div>
-
           <div className="flex justify-between items-center mt-4 text-xl">
             <div className="font-bold">ทั้งหมด</div>
             <div className="font-bold">
@@ -129,16 +137,32 @@ export default function ConclusionBill({
               บาท
             </div>
           </div>
-
           {/* <center className="text-[#246BFD] mx-[auto] text-[18px] py-2 mt-3 cursor-pointer flex justify-center w-fit items-center gap-1">
             <span className="material-symbols-outlined text-[#246BFD]">download</span>
             ดาวน์โหลดใบเสร็จ
           </center> */}
-          <div className="bg-[#246BFD] mb-2 text-[18px] py-2 mt-4 cursor-pointer flex justify-center w-full items-center rounded-lg"
-               onClick={onSubmit}>
-            สร้างใบเสร็จ
-          </div>
-          * ระบบไม่อนุญาติให้แก้ไขรายการหลังจากสร้างใบเสร็จแล้ว
+          {isPostBill && (
+            <center>
+              <lord-icon
+                src="https://cdn.lordicon.com/ymrqtsej.json"
+                trigger="loop"
+                colors="primary:#ffffff"
+                style={{ width: "100px", height: "100px" }}
+              />
+            </center>
+          )}
+
+          {!isPostBill && (
+            <>
+              <div
+                className="bg-[#246BFD] mb-2 text-[18px] py-2 mt-4 cursor-pointer flex justify-center w-full items-center rounded-lg"
+                onClick={onSubmit}
+              >
+                สร้างใบเสร็จ
+              </div>
+              * ระบบไม่อนุญาติให้แก้ไขรายการหลังจากสร้างใบเสร็จแล้ว
+            </>
+          )}
         </div>
       </div>
     </>

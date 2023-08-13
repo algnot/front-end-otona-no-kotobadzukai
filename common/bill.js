@@ -26,3 +26,12 @@ export const postBill = async (token, bill) => {
         new Error(error.message);
     }
 }
+
+export const getBillsByRef = async (ref) => {
+    try {
+        const bills = await axios.get(`${backendPath}/bill?ref=${ref}`);
+        return bills.data;
+    } catch (error) {
+        new Error(error.message);
+    }
+}
