@@ -53,9 +53,15 @@ export default function BillDetail({ bill }) {
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
         />
       </Head>
-      <div className="pb-5">
+      <div className="pb-6">
         <Topbar href="/bill" showBack={false} title={bill.name} />
-        <div>
+        <div className="px-3 mt-6">
+          <a href={`${process.env.NEXT_PUBLIC_BACKEND_URL}/pdf/preview/bill/${bill.ref}`} target="_blank" className="center text-[#246BFD] mx-[auto] text-[18px] py-2 mt-3 cursor-pointer flex justify-center w-fit items-center gap-1">
+            <span className="material-symbols-outlined text-[#246BFD]">
+              download
+            </span>
+            ดาวน์โหลดใบเสร็จ
+          </a>
           <div className="mt-7">
             <span className="font-bold">สถานะ </span>
             <span
@@ -142,9 +148,7 @@ export default function BillDetail({ bill }) {
                       )}
                     </div>
                   </div>
-                  <div>
-                    ฿ {parseFloat(item.totalAmount).toFixed(2)}
-                  </div>
+                  <div>฿ {parseFloat(item.totalAmount).toFixed(2)}</div>
                 </div>
               );
             })}
