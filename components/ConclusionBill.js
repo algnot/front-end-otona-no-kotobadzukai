@@ -39,9 +39,9 @@ export default function ConclusionBill({
   const onSubmit = async () => {
     try {
       setIsPostBill(true);
-      await postBill(authToken.auth, payload);
+      const bill = await postBill(authToken.auth, payload);
       await userSuccess("Success", "สร้างรายการสำเร็จ");
-      window.location.href = "/bill";
+      window.location.href = `/bill/${bill.ref}?canGoBack=true`;
     } catch (error) {
       userError("Error", error.message);
       setIsPostBill(false);
@@ -137,10 +137,6 @@ export default function ConclusionBill({
               บาท
             </div>
           </div>
-          {/* <center className="text-[#246BFD] mx-[auto] text-[18px] py-2 mt-3 cursor-pointer flex justify-center w-fit items-center gap-1">
-            <span className="material-symbols-outlined text-[#246BFD]">download</span>
-            ดาวน์โหลดใบเสร็จ
-          </center> */}
           {isPostBill && (
             <center>
               <lord-icon

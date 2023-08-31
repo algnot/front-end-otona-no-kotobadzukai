@@ -7,6 +7,7 @@ import { getBillsOwner } from "../common/bill";
 import { useCookies } from "react-cookie";
 import { userError } from "../common/alert";
 import Head from "next/head";
+import { numberWithCommas } from "../common/validater";
 
 export async function getServerSideProps(context) {
   const redirect = await checkWantToLogin(context.req.cookies.auth);
@@ -92,7 +93,7 @@ export default function Bill({ user }) {
               </div>
               <div className="text-right">
                 <div className="font-bold text-[16px]">
-                  ฿ {bill.totalAmount}
+                  ฿  {numberWithCommas(bill.totalAmount)}
                 </div>
                 <div className="text-gray-500 text-[14px]">
                   {bill.userBill[0].name}

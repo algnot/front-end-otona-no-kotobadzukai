@@ -7,8 +7,10 @@ export default function PopupShowPayment({
   payment,
   closePopup,
   editMode = false,
+  defualtAmount = 0,
+  canEditAmount = true,
 }) {
-  const [amonut, setAmonut] = useState(0);
+  const [amonut, setAmonut] = useState(defualtAmount);
 
   useEffect(() => {
     AOS.init();
@@ -62,9 +64,7 @@ export default function PopupShowPayment({
                 style={{ gridTemplateColumns: "30px 1fr" }}
               >
                 <span className="material-symbols-outlined text-[28px] text-gray-300">
-                  <span className="material-symbols-outlined">
-                    tag
-                  </span>
+                  <span className="material-symbols-outlined">tag</span>
                 </span>
                 <input
                   className="bg-tranparent text-[18px] text-gray-300"
@@ -77,7 +77,9 @@ export default function PopupShowPayment({
 
           {!editMode && (
             <>
-              <div className="text-white mb-3 text-[18px]">ระบุจำนวนเงิน</div>
+              {canEditAmount && (
+                <div className="text-white mb-3 text-[18px]">ระบุจำนวนเงิน</div>
+              )}
 
               <div
                 className="grid gap-4 bg-[#171823] rounded-lg px-3 py-2 mt-3"
@@ -93,6 +95,7 @@ export default function PopupShowPayment({
                   name="number"
                   value={amonut}
                   onChange={(e) => setAmonut(e.target.value)}
+                  disabled={!canEditAmount}
                 />
               </div>
             </>
